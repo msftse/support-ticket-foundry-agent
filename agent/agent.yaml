@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/microsoft/AgentSchema/refs/heads/main/schemas/v1.0/ContainerAgent.yaml
+kind: hosted
+name: support-ticket-workflow-agent
+protocols:
+  - protocol: responses
+    version: 1.0.0
+resources:
+  cpu: '0.5'
+  memory: '1Gi'
+environment_variables:
+  - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+    value: gpt-4o
+  - name: SUPPORT_WORKFLOW_MAX_RETRIES
+    value: '3'
+  - name: MICROSOFT_LEARN_MCP_URL
+    value: https://learn.microsoft.com/api/mcp

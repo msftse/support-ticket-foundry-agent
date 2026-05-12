@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+requiredVersions:
+    extensions:
+        azure.ai.agents: '>=0.1.0-preview'
+name: support-ticket-foundry-agent
+services:
+    support-ticket-agent:
+        project: ./agent
+        host: azure.ai.agent
+        language: python
+        config:
+            container:
+                resources:
+                    cpu: "0.5"
+                    memory: 1Gi
+infra:
+    provider: bicep
+    path: ./infra
+hooks:
+    postdeploy:
+        shell: sh
+        continueOnError: true
+        interactive: false
+        run: ./scripts/grant-agent-rbac.sh
