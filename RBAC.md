@@ -4,14 +4,14 @@ Two identities need permissions: **you** (the human running `azd up`) and **the 
 
 ## 1. You (the deployer)
 
-Assigned manually **before** running `azd up`.
+Your Azure account must have these roles **before** you run `azd up`. They are granted to your user by an Azure admin (or yourself if you already own the subscription) — they are not granted by the deployment.
 
 | Role | Scope | Why |
 |---|---|---|
-| **Owner** *(or **Contributor** + **User Access Administrator**)* | Subscription (or target resource group) | Create all resources and assign roles. |
+| **Owner** *(or **Contributor** + **User Access Administrator**)* | Subscription | Bicep is subscription-scoped: `azd up` creates the resource group, all resources inside it, and several role assignments. |
 | **Directory Reader** *(Entra ID)* | Tenant | Only if your tenant restricts `az ad sp list`. The post-deploy script uses it to find the agent's managed identities. |
 
-That's it. Everything else is granted automatically by Bicep or by `scripts/grant-agent-rbac.sh`.
+The resource group, all Azure resources, and every other role assignment listed below are created automatically by `azd up` (Bicep + `scripts/grant-agent-rbac.sh`).
 
 ## 2. Agent's managed identities
 
@@ -41,4 +41,4 @@ All assigned automatically by Bicep — you do **not** need new permissions beyo
 
 ## TL;DR
 
-Give the deployer **Owner** on the subscription (or RG). Everything else is automated.
+Give the deployer **Owner** on the subscription. `azd up` does the rest — including creating the resource group.
